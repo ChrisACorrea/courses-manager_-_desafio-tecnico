@@ -12,6 +12,14 @@ import jakarta.persistence.ManyToOne;
 @Entity
 public class Lesson {
 
+    @SuppressWarnings("unused")
+    private Lesson() {
+    }
+
+    public Lesson(String name) {
+        this(null, name, null);
+    }
+
     public Lesson(String name, Course course) {
         this(null, name, course);
     }

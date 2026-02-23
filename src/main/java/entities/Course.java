@@ -15,6 +15,14 @@ import jakarta.persistence.OneToMany;
 @Entity
 public class Course {
 
+    @SuppressWarnings("unused")
+    private Course() {
+    }
+
+    public Course(String name) {
+        this(null, name, Collections.emptySet());
+    }
+
     public Course(String name, Set<Lesson> lessons) {
         this(null, name, lessons);
     }
@@ -22,7 +30,7 @@ public class Course {
     public Course(Long id, String name, Set<Lesson> lessons) {
         this.id = id;
         this.name = name;
-        this.lessons = lessons;
+        this.lessons = lessons != null ? lessons : Collections.emptySet();
     }
 
     @Id
@@ -49,6 +57,10 @@ public class Course {
 
     public boolean addLesson(Lesson lesson) {
         return lessons.add(lesson);
+    }
+
+    public boolean addLessons(Set<Lesson> lessons) {
+        return this.lessons.addAll(lessons);
     }
 
     public boolean removeLessonById(Long lessonId) {
