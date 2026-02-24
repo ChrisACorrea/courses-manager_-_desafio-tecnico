@@ -1,6 +1,7 @@
 package entities;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
@@ -15,8 +16,7 @@ import jakarta.persistence.OneToMany;
 @Entity
 public class Course {
 
-    @SuppressWarnings("unused")
-    private Course() {
+    protected Course() {
     }
 
     public Course(String name) {
@@ -30,7 +30,7 @@ public class Course {
     public Course(Long id, String name, Set<Lesson> lessons) {
         this.id = id;
         this.name = name;
-        this.lessons = lessons != null ? lessons : Collections.emptySet();
+        this.lessons = lessons != null ? lessons : new HashSet<>();
     }
 
     @Id

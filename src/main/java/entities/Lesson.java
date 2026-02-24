@@ -12,8 +12,7 @@ import jakarta.persistence.ManyToOne;
 @Entity
 public class Lesson {
 
-    @SuppressWarnings("unused")
-    private Lesson() {
+    protected Lesson() {
     }
 
     public Lesson(String name) {
@@ -51,5 +50,9 @@ public class Lesson {
 
     public Course getCourse() {
         return course;
+    }
+
+    public Lesson withCourse(Course course) {
+        return new Lesson(this.id, this.name, course);
     }
 }

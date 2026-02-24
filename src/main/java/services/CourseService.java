@@ -56,7 +56,8 @@ public class CourseService {
     public void addLessonToCourse(Long courseId, Lesson lesson) {
         Course course = courseRepository.findByIdOptional(courseId)
                 .orElseThrow();
-        course.addLesson(lesson);
+        Lesson lessonWithCourse = lesson.withCourse(course);
+        course.addLesson(lessonWithCourse);
         courseRepository.getEntityManager().merge(course);
     }
 

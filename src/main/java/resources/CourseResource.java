@@ -1,8 +1,12 @@
 package resources;
 
+import java.net.URI;
+
 import dtos.CourseCreateDTO;
+import dtos.CourseReadDTO;
 import dtos.CourseUpdateDTO;
 import dtos.LessonCreateDTO;
+import dtos.LessonReadDTO;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -15,6 +19,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
 import services.CourseService;
 
 @Path("/courses")
@@ -34,24 +39,27 @@ public class CourseResource {
     @GET
     public Response getAllCourses() {
         var courses = courseService.getAllCourses();
+        var courseDtos = CourseReadDTO.fromEntities(courses);
 
-        return Response.ok(courses).build();
+        return Response.ok(courseDtos).build();
     }
 
     @GET
     @Path("/{id}")
     public Response getCourseById(Long id) {
         var course = courseService.getCourseById(id);
+        var courseDto = CourseReadDTO.fromEntity(course);
 
-        return Response.ok(course).build();
+        return Response.ok(courseDto).build();
     }
 
     @POST
     public Response createCourse(CourseCreateDTO courseCreateDTO) {
         var course = courseCreateDTO.toEntity();
         courseService.createCourse(course);
+        var courseDto = CourseReadDTO.fromEntity(course);
 
-        return Response.ok(course).build();
+        return Response.created(URI.create("/courses/" + course.getId())).entity(courseDto).build();
     }
 
     @PUT
@@ -63,13 +71,16 @@ public class CourseResource {
 
         var course = courseUpdateDTO.toEntity();
         courseService.updateCourse(course);
-        return Response.ok(course).build();
+        var courseDto = CourseReadDTO.fromEntity(course);
+
+        return Response.ok(courseDto).build();
     }
 
     @DELETE
     @Path("/{id}")
     public Response deleteCourse(Long id) {
         courseService.deleteCourseById(id);
+
         return Response.noContent().build();
     }
 
@@ -77,7 +88,9 @@ public class CourseResource {
     @Path("/{courseId}/lessons")
     public Response getLessonsByCourseId(Long courseId) {
         var lessons = courseService.getLessonsByCourseId(courseId);
-        return Response.ok(lessons).build();
+        var lessonDtos = LessonReadDTO.fromEntities(lessons);
+
+        return Response.ok(lessonDtos).build();
     }
 
     @POST
@@ -85,6 +98,7 @@ public class CourseResource {
     public Response addLessonToCourse(Long courseId, LessonCreateDTO lessonCreateDTO) {
         var lesson = lessonCreateDTO.toEntity();
         courseService.addLessonToCourse(courseId, lesson);
-        return Response.ok(lesson).build();
+
+        return Response.status(Status.CREATED).build();
     }
 }
