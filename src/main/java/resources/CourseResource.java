@@ -18,6 +18,7 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
@@ -39,8 +40,14 @@ public class CourseResource {
     }
 
     @GET
-    public Response getAllCourses() {
-        var result = courseService.getAllCourses();
+    public Response getAllCourses(@QueryParam("pageIndex") int pageIndex, @QueryParam("pageSize") int pageSize) {
+        if (pageIndex < 0)
+            pageIndex = 0;
+
+        if (pageSize <= 0)
+            pageSize = 10;
+
+        var result = courseService.getAllCourses(pageIndex, pageSize);
         var courseDtos = CourseReadDTO.fromEntities(result.data());
         var response = Result.success(courseDtos);
 

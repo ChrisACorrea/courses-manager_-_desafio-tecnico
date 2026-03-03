@@ -1,8 +1,6 @@
 package services;
 
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import entities.Course;
@@ -28,10 +26,11 @@ public class CourseService {
         this.validator = validator;
     }
 
-    public Result<List<Course>> getAllCourses() {
+    public Result<List<Course>> getAllCourses(int pageIndex, int pageSize) {
         var courses = courseRepository.findAll(
                 Sort.by(Course_.NAME)
                         .and(Course_.ID))
+                .page(pageIndex, pageSize)
                 .list();
 
         return Result.success(courses);
