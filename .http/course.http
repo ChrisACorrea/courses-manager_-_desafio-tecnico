@@ -1,0 +1,91 @@
+// POSTs =======================
+
+
+###
+// Com Content-Type inesperado
+POST http://localhost:8080/courses  HTTP/1.1
+content-type: text/plain
+
+"qualquer coisa"
+
+
+###
+// Criação de curso com dados corretos
+POST http://localhost:8080/courses  HTTP/1.1
+content-type: application/json
+
+{
+  "name": "Curso de Java"
+}
+
+
+###
+// Criação de curso com dados incorretos
+POST http://localhost:8080/courses  HTTP/1.1
+content-type: application/json
+
+{
+  "name": "C#"
+}
+
+// GETs =======================
+
+
+###
+// Listar cursos
+GET http://localhost:8080/courses HTTP/1.1
+
+
+###
+// Pegar curso por ID com sucesso
+GET http://localhost:8080/courses/1 HTTP/1.1
+
+
+###
+// Pegar curso por ID que não existe
+GET http://localhost:8080/courses/999 HTTP/1.1
+
+// PUTs =======================
+
+
+###
+// Atualizar curso por ID com sucesso
+PUT http://localhost:8080/courses/1 HTTP/1.1
+content-type: application/json
+
+{
+  "id": 1,
+  "name": "Curso de Java Atualizado"
+}
+
+
+###
+// Atualizar curso por ID que não existe
+PUT http://localhost:8080/courses/999 HTTP/1.1
+content-type: application/json
+
+{
+  "id": 999,
+  "name": "Curso de Java Atualizado"
+}
+
+
+###
+// Atualizar curso por ID com dados incorretos
+PUT http://localhost:8080/courses/1 HTTP/1.1
+content-type: application/json
+
+{
+  "id": 1,
+  "name": "C#"
+}
+
+// DELETEs =======================
+
+###
+// Deletar curso por ID com sucesso
+DELETE http://localhost:8080/courses/1 HTTP/1.1
+
+###
+// Deletar curso por ID que não existe
+DELETE http://localhost:8080/courses/999 HTTP/1.1
