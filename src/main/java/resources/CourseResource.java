@@ -1,13 +1,12 @@
 package resources;
 
 import java.net.URI;
-import java.util.List;
 
 import dtos.CourseCreateDTO;
 import dtos.CourseReadDTO;
-import dtos.CourseUpdateDTO;
 import dtos.LessonCreateDTO;
 import dtos.LessonReadDTO;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -65,6 +64,7 @@ public class CourseResource {
     }
 
     @POST
+    @RolesAllowed("ADMIN")
     public Response createCourse(CourseCreateDTO courseCreateDTO) {
         var course = courseCreateDTO.toEntity();
         var result = courseService.createCourse(course);
@@ -81,10 +81,12 @@ public class CourseResource {
 
     @PUT
     @Path("/{id}")
+    @RolesAllowed("ADMIN")
     public Response updateCourse(Long id, CourseCreateDTO courseUpdateDTO) {
         // if (!id.equals(courseUpdateDTO.id())) {
-        //     var response = Result.failure(List.of("ID do caminho e do corpo devem ser iguais."));
-        //     return Response.status(Response.Status.BAD_REQUEST).entity(response).build();
+        // var response = Result.failure(List.of("ID do caminho e do corpo devem ser
+        // iguais."));
+        // return Response.status(Response.Status.BAD_REQUEST).entity(response).build();
         // }
 
         var course = courseUpdateDTO.toEntity();
@@ -102,6 +104,7 @@ public class CourseResource {
 
     @DELETE
     @Path("/{id}")
+    @RolesAllowed("ADMIN")
     public Response deleteCourse(Long id) {
         var result = courseService.deleteCourseById(id);
 
@@ -125,6 +128,7 @@ public class CourseResource {
 
     @POST
     @Path("/{courseId}/lessons")
+    @RolesAllowed("ADMIN")
     public Response addLessonToCourse(Long courseId, LessonCreateDTO lessonCreateDTO) {
         var lesson = lessonCreateDTO.toEntity();
         var result = courseService.addLessonToCourse(courseId, lesson);

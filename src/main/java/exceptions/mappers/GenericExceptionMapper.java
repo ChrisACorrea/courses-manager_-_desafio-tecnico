@@ -4,8 +4,10 @@ import java.util.List;
 
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
+import jakarta.ws.rs.ext.Provider;
 import results.Result;
 
+@Provider
 public class GenericExceptionMapper implements ExceptionMapper<Throwable> {
 
     @Override
