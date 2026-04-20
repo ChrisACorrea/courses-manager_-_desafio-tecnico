@@ -22,7 +22,7 @@ import results.Result;
 @ApplicationScoped
 public class UserService {
 
-    private static final String DEFAULT_ADMIN_EMAIL = "admin@admin.com";
+    private static final String DEFAULT_ADMIN_EMAIL = "admin";
 
     private final UserRepository userRepository;
     private final Validator validator;

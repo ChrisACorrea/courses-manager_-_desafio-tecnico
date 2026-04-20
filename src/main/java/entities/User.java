@@ -46,7 +46,7 @@ public class User {
     @Column(nullable = false)
     private String name;
 
-    @Email
+    //@Email
     @NotBlank
     @Username
     @Column(nullable = false)
